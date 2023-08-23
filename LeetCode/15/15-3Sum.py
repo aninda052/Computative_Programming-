@@ -4,21 +4,23 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        result = []
         nums_length = len(nums)
+        nums.sort()
         triplets = set()
 
-        for i in range(nums_length - 2):
-            i_value = nums[i]
-            for j in range(i + 1, nums_length - 1):
-                j_value = nums[j]
-                for k in range(j + 1, nums_length):
-                    k_value = nums[k]
+        for i_index in range(nums_length):
+            j_index = i_index + 1
+            k_index = nums_length - 1
 
-                    tmp = ''.join(map(str, sorted([i_value, j_value, k_value])))
+            while j_index < k_index :
+                _sum = nums[i_index] + nums[j_index] + nums[k_index]
+                if _sum == 0 :
+                    triplets.add((nums[i_index], nums[j_index], nums[k_index]))
+                    j_index+=1
+                    k_index-=1
+                elif _sum > 0 : 
+                    k_index-=1
+                else:
+                    j_index+=1
 
-                    if i_value + j_value + k_value == 0 and tmp not in triplets:
-                        triplets.add(tmp)
-                        result.append([i_value, j_value, k_value])
-
-        return result
+        return list(triplets)
